@@ -1,26 +1,71 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { Component } from 'react';
 import './App.css';
+import Dashboard from './components/Dashboard/Dashboard';
+import Header from './components/Header/Header';
+import Form from './components/Form/Form';
+//import axios from 'axios';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+//get inventory from database
+
+class App extends Component{ 
+  constructor(){
+    super();
+    this.state = {
+      inventory: []
+    }
+  }
+  
+render(){ 
+return (
+<div className="App">
+  <h1>Add Product</h1>
+   
+    <Form />
+    <Dashboard />
+    <Header />
+   
+</div>
+);
+}
 }
 
-export default App;
+export default App; 
+
+  // constructor(props){
+  //   super(props);
+  //   this.state = {
+  //     List: []
+//     }
+//     this.handleAddProduct = this.handleAddProduct.bind(this);
+//   }
+//    componentDidMount(){   
+//      axios.get('/api/Products')
+//      .then(res => {
+//        this.setState({Products: res.data})
+//       })
+//       .catch(err => console.log(err));
+//     }
+//     handleAddProduct(product) {
+//       axios.post('/api/Products', {product: product})
+//       .then(res => {
+//       this.setState({ list: [...this.state.list, product] });
+//       })
+//       .catch(err => console.log(err));
+//     }
+
+//   editName = (id, newName) => {
+//     let body = {name: newName};
+
+//     axios.put(`/api/Products/${id}`, body)
+//     .then(res => {
+//       this.setState({List: res.data})
+//     })
+//     .catch(err => console.log(err));
+//   }
+//   deleteProduct = (id) => {
+//     axios.delete(`/api/Products/${id}`)
+//     .then(res => {
+//       this.setState({List: res.data})
+//     })
+//     .catch(err => console.log(err));
+ 

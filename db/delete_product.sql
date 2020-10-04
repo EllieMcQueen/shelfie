@@ -1,0 +1,1 @@
+DELETE FROM shelfs WHERE product_id = $1
