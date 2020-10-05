@@ -1,37 +1,28 @@
-import React, { Component } from 'react';
-import axios from 'axios'
-import Product from '../Product/Product';
-//import './Dashboard.css'
+import React from "react";
+import Product from "../Product/Product";
+import axios from "axios";
 
-class Dashboard extends Component {    
+function Dashboard(props) {
+  const deleteProduct = id => {
+    axios.delete(`/api/deleteProduct/${id}`)
+      .then(() => {
+            props.getInventoryFn();
+      })
+      .catch((error) => alert(error, 'No Product was found to remove'))
+  }
 
-    deleteProduct = (id) => {
-        axios 
-        .delete(`/api/deleteProduct/${id}`)
-        .then(res => {
-            this.props.getInventoryFn();
-        })
-        .catch(err => console.log('axios error', err))
-    }
-    render(){
-
-    const mappedInventory = this.props.inventory.map((el, i) => (
-        <Product
-            key={i}
-            product={el}
-            getInventoryFn={this.props.getInventoryFn}
-            deleteProductFn={this.deleteProduct}
-            editSelectedFn={this.props.editSelectedFn}/>
-    ))
-
-    return(
-        <div className='dashboard-flex'>
-            <h1>Dashboard</h1>
-        <div>
-                {mappedInventory}
-            </div>
-        </div>
+    return (
+      <div className="inventory_container">
+        {props.inventory.map((item, index) => (
+      <Product
+            item={item}
+            key={index}
+            deleteProduct={deleteProduct}
+            updateProduct={props.updateProduct}
+      />
+      ))}
+      </div>
     )
-}
-}
-export default Dashboard;
+  }
+
+   export default Dashboard

@@ -3,26 +3,45 @@ import './App.css';
 import Dashboard from './components/Dashboard/Dashboard';
 import Header from './components/Header/Header';
 import Form from './components/Form/Form';
-//import axios from 'axios';
-
-//get inventory from database
+import axios from 'axios';
 
 class App extends Component{ 
   constructor(){
     super();
+    
     this.state = {
-      inventory: []
+      inventory: [],
+      currentSelectedProduct: {}
     }
-  }
-  
+      
+    
+    this.getInventory = this.getInventory.bind(this);
+    }
+     
+    componentDidMount(){   
+      this.getInventory() 
+     }
+
+     getInventory(){
+       axios.get(`/api/products`).then(response => {
+         console.log(response)
+         this.setState({ inventory: response.data })
+       }).catch(error => alert(error, "All the stuff is missing."))
+     }
+    
+     updateProduct = (product) => {
+      this.setState({ currentSelectedProduct: product})
+     }
+      
 render(){ 
 return (
 <div className="App">
-  <h1>Add Product</h1>
-   
-    <Form />
-    <Dashboard />
     <Header />
+    <Form currentSelectedProduct={this.state.currentSelectedProduct}/>
+    <Dashboard inventory={this.state.inventory}
+    nameFn={this.editName}
+    releaseFn={this.releaseInventory} />
+    
    
 </div>
 );
@@ -30,42 +49,3 @@ return (
 }
 
 export default App; 
-
-  // constructor(props){
-  //   super(props);
-  //   this.state = {
-  //     List: []
-//     }
-//     this.handleAddProduct = this.handleAddProduct.bind(this);
-//   }
-//    componentDidMount(){   
-//      axios.get('/api/Products')
-//      .then(res => {
-//        this.setState({Products: res.data})
-//       })
-//       .catch(err => console.log(err));
-//     }
-//     handleAddProduct(product) {
-//       axios.post('/api/Products', {product: product})
-//       .then(res => {
-//       this.setState({ list: [...this.state.list, product] });
-//       })
-//       .catch(err => console.log(err));
-//     }
-
-//   editName = (id, newName) => {
-//     let body = {name: newName};
-
-//     axios.put(`/api/Products/${id}`, body)
-//     .then(res => {
-//       this.setState({List: res.data})
-//     })
-//     .catch(err => console.log(err));
-//   }
-//   deleteProduct = (id) => {
-//     axios.delete(`/api/Products/${id}`)
-//     .then(res => {
-//       this.setState({List: res.data})
-//     })
-//     .catch(err => console.log(err));
- 
